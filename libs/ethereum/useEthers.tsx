@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-type Provider = ethers.providers.Provider
+type Web3Provider = ethers.providers.Web3Provider
 
 declare global {
     interface Window {
@@ -20,12 +20,13 @@ const MetamaskInitializer = () => {
 
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
+
     return { provider, signer }
 }
 
 interface IEthersContext {
     instance?: string
-    provider?: Provider
+    provider?: Web3Provider
     signer?: Signer
 }
 
@@ -36,12 +37,12 @@ export const EthersProvider = ({
     initializer: initialize,
 }: PropsWithChildren<{
     initializer?: () => {
-        provider: Provider
+        provider: Web3Provider
         signer: Signer
     }
 }>): JSX.Element => {
     const [instance, setInstance] = useState<string>()
-    const [provider, setProvider] = useState<Provider>()
+    const [provider, setProvider] = useState<Web3Provider>()
     const [signer, setSigner] = useState<Signer>()
 
     useEffect(() => {
