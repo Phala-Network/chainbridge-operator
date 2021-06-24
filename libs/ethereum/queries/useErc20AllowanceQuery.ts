@@ -7,14 +7,14 @@ import { useEthersNetworkQuery } from './useEthersNetworkQuery'
 
 const Erc20AllowanceQueryKey = uuidv4()
 
-export const useErc20AssetHandlerAllowanceQuery = (owner: string): UseQueryResult<BigNumber> => {
+export const useErc20AssetHandlerAllowanceQuery = (owner?: string): UseQueryResult<BigNumber> => {
     const { contract, instance } = useErc20Contract()
     const { data: network } = useEthersNetworkQuery()
 
     return useQuery([Erc20AllowanceQueryKey, instance, owner], async () => {
         const spender = networks[network?.chainId as number]?.erc20handler
 
-        if (spender === undefined) {
+        if (owner === undefined || spender === undefined) {
             return
         }
 
