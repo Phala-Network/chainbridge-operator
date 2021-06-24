@@ -5,10 +5,14 @@ import { useErc20Contract } from '../erc20/useErc20Contract'
 
 const Erc20BalanceQuery = uuidv4()
 
-export const useErc20BalanceQuery = (account: string): UseQueryResult => {
+export const useErc20BalanceQuery = (account?: string): UseQueryResult => {
     const { contract, instance } = useErc20Contract()
 
     return useQuery([Erc20BalanceQuery, instance, account], async () => {
+        if (account === undefined) {
+            return
+        }
+
         const result = (await contract?.functions['balanceOf']?.(account)) as BigNumber | BigNumber[] | undefined
         return result instanceof Array ? result[0] : result
     })

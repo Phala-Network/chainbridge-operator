@@ -1,3 +1,4 @@
+import { LayersManager } from 'baseui/layer'
 import type { AppProps } from 'next/app'
 import { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -14,7 +15,9 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
             <Web3Provider>
                 <EthersProvider>
                     <StyletronProvider value={styletron}>
-                        <Component {...pageProps} />
+                        <LayersManager>
+                            <Component {...pageProps} />
+                        </LayersManager>
                     </StyletronProvider>
                 </EthersProvider>
             </Web3Provider>

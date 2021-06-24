@@ -1,11 +1,11 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react'
 import Web3Modal from 'web3modal'
 
+export type Readystate = 'idle' | 'connecting' | 'connected' | 'unavailable'
+
 interface Provider {
     readonly _: unique symbol
 }
-
-type Readystate = 'idle' | 'connecting' | 'connected' | 'unavailable'
 
 interface IWeb3Context {
     provider?: Provider
