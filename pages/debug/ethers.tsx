@@ -8,13 +8,6 @@ import { useAccountsQuery } from '../../libs/ethereum/queries/useAccountsQuery'
 import { useErc20AssetHandlerAllowanceQuery } from '../../libs/ethereum/queries/useErc20AllowanceQuery'
 import { useErc20BalanceQuery } from '../../libs/ethereum/queries/useErc20BalanceQuery'
 
-const NetworkQueryKey = uuidv4()
-
-const useNetworkQuery = () => {
-    const { instance, provider } = useEthers()
-    return useQuery([NetworkQueryKey, instance], async () => await provider?.getNetwork())
-}
-
 const BlockNumberQueryKey = uuidv4()
 
 const useBlockNumberQuery = () => {
