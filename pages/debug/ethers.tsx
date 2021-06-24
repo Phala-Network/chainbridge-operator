@@ -1,11 +1,12 @@
+import { ethers, utils as ethersUtils } from 'ethers'
 import { NextPage } from 'next'
 import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { v4 as uuidv4 } from 'uuid'
-import { useErc20BalanceQuery } from '../../libs/ethereum/erc20/useErc20BalanceQuery'
-import { useAccountsQuery } from '../../libs/ethereum/useAccountsQuery'
-import { useEthers } from '../../libs/ethereum/useEthers'
-import { ethers, utils as ethersUtils } from 'ethers'
+import { useEthers } from '../../libs/ethereum/contexts/useEthers'
+import { useAccountsQuery } from '../../libs/ethereum/queries/useAccountsQuery'
+import { useErc20AssetHandlerAllowanceQuery } from '../../libs/ethereum/queries/useErc20AllowanceQuery'
+import { useErc20BalanceQuery } from '../../libs/ethereum/queries/useErc20BalanceQuery'
 
 const NetworkQueryKey = uuidv4()
 
@@ -24,10 +25,21 @@ const useBlockNumberQuery = () => {
 
 const AccountRow = ({ account }: { account: string }) => {
     const { data: balance } = useErc20BalanceQuery(account)
+    const { data: allowance } = useErc20AssetHandlerAllowanceQuery(account)
+
     return (
         <>
-            {account}: {balance !== undefined ? ethersUtils.formatUnits(balance as ethers.BigNumberish, 18) : 'loading'}{' '}
-            PHA
+            <h3>{account}</h3>
+            <div>
+                ERC20 Balance:&nbsp;
+                {balance !== undefined ? ethersUtils.formatUnits(balance as ethers.BigNumberish, 18) : 'loading'}
+                &nbsp;PHA
+            </div>
+            <div>
+                Allowance:&nbsp;
+                {allowance !== undefined ? ethersUtils.formatUnits(allowance as ethers.BigNumberish, 18) : 'loading'}
+                &nbsp;PHA
+            </div>
         </>
     )
 }
@@ -35,7 +47,9 @@ const AccountRow = ({ account }: { account: string }) => {
 const DebugEthersPage: NextPage = () => {
     const { data: accounts, error: accountQueryError } = useAccountsQuery()
     const { data: blockNumber, dataUpdatedAt } = useBlockNumberQuery()
-    const { data: network } = useNetworkQuery()
+    const { provider } = useEthers()
+
+    const network = useMemo(() => provider?.network, [provider?.network])
 
     const accountRows = useMemo(() => {
         return accounts?.map((account) => <AccountRow account={account} key={account} />) ?? []

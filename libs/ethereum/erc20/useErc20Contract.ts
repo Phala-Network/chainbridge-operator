@@ -1,6 +1,9 @@
 import { Contract, ethers } from 'ethers'
 import { useMemo } from 'react'
-import { useEthers } from '../useEthers'
+import { v4 as uuidv4 } from 'uuid'
+import { networks } from '../../../config'
+import { useEthers } from '../contexts/useEthers'
+import { useEthersNetworkQuery } from '../queries/useEthersNetworkQuery'
 
 const contractInterface = [
     'function allowance(address owner, address spender) external view returns (uint256)',
@@ -8,14 +11,23 @@ const contractInterface = [
     'function balanceOf(address account) external view returns (uint256)',
 ]
 
-export const useErc20Contract = (addressOrName?: string): Contract | undefined => {
+export const useErc20Contract = (addressOrName?: string): { contract?: Contract; instance?: string } => {
     const { signer } = useEthers()
 
+    const { data: network } = useEthersNetworkQuery()
+
+    const chainId = network?.chainId
+
     return useMemo(() => {
-        if (addressOrName === undefined || signer === undefined) {
-            return undefined
+        const erc20 = addressOrName ?? networks[chainId as number]?.erc20
+
+        if (erc20 === undefined || signer === undefined) {
+            return {}
         }
 
-        return new ethers.Contract(addressOrName, contractInterface, signer)
-    }, [addressOrName, signer])
+        return {
+            contract: new ethers.Contract(erc20, contractInterface, signer),
+            instance: uuidv4(),
+        }
+    }, [addressOrName, chainId, signer])
 }

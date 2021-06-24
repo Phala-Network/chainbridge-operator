@@ -1,4 +1,4 @@
-import { useEthers } from './useEthers'
+import { useEthers } from '../contexts/useEthers'
 import { v4 as uuidv4 } from 'uuid'
 import { useQuery, UseQueryResult } from 'react-query'
 

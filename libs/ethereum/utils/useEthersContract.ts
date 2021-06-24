@@ -1,6 +1,6 @@
 import { Contract, ethers } from 'ethers'
 import { useMemo } from 'react'
-import { useEthers } from './useEthers'
+import { useEthers } from '../contexts/useEthers'
 
 export const useEthersContract = (
     contractInterface: ethers.ContractInterface,
