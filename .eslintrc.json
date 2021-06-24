@@ -3,11 +3,15 @@
     "extends": [
         "eslint:recommended",
         "plugin:@next/next/recommended",
-        "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:baseui/recommended",
+        "plugin:import/errors",
+        "plugin:import/typescript",
+        "plugin:import/warnings",
         "plugin:jsx-a11y/strict",
-        "plugin:react/recommended",
         "plugin:react-hooks/recommended",
+        "plugin:react/recommended",
         "prettier"
     ],
     "parser": "@typescript-eslint/parser",
@@ -21,6 +25,8 @@
     },
     "rules": {
         "@typescript-eslint/no-empty-function": "off",
+        "import/no-unassigned-import": ["warn"],
+        "import/order": ["warn"],
         "react/react-in-jsx-scope": "off"
     },
     "settings": {
