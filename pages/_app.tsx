@@ -1,6 +1,6 @@
-import { LayersManager } from 'baseui/layer'
+import { BaseProvider, LightTheme } from 'baseui'
 import type { AppProps } from 'next/app'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { EthersProvider } from '../libs/ethereum/contexts/useEthers'
@@ -15,9 +15,9 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
             <Web3Provider>
                 <EthersProvider>
                     <StyletronProvider value={styletron}>
-                        <LayersManager>
+                        <BaseProvider theme={LightTheme}>
                             <Component {...pageProps} />
-                        </LayersManager>
+                        </BaseProvider>
                     </StyletronProvider>
                 </EthersProvider>
             </Web3Provider>
