@@ -1,56 +1,50 @@
-import { AppType, DocumentContext } from 'next/dist/next-server/lib/utils'
-import Document, { DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document'
-import { Server, Sheet } from 'styletron-engine-atomic'
-import { Provider as StyletronProvider } from 'styletron-react'
-import { styletron } from '../libs/styletron'
+// TODO: FIXME: implement server side styling
 
-type PropExtensions = DocumentInitialProps & { styletronStyles: Sheet[] }
+import Document from 'next/document'
 
-class AppDocument extends Document<PropExtensions> {
-    static override async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps & PropExtensions> {
-        const renderPage = () =>
-            ctx.renderPage({
-                enhanceApp: (App: AppType) =>
-                    function StyletronApp(props) {
-                        return (
-                            <StyletronProvider value={styletron}>
-                                <App {...props} />
-                            </StyletronProvider>
-                        )
-                    },
-            })
+// type StyletronProps = { stylesheets: Sheet[] }
 
-        const initialProps = await Document.getInitialProps({
-            ...ctx,
-            renderPage,
-        })
-
-        const stylesheets = (styletron as Server).getStylesheets() || []
-
-        return { ...initialProps, styletronStyles: stylesheets }
-    }
-
-    override render(): JSX.Element {
-        return (
-            <Html>
-                <Head>
-                    {this.props.styletronStyles.map((sheet, i) => (
-                        <style
-                            className="_styletron_hydrate_"
-                            dangerouslySetInnerHTML={{ __html: sheet.css }}
-                            data-hydrate={sheet.attrs['data-hydrate']}
-                            key={i}
-                            media={sheet.attrs['media']}
-                        />
-                    ))}
-                </Head>
-                <body>
-                    <Main />
-                    <NextScript />
-                </body>
-            </Html>
-        )
-    }
+class AppDocument extends Document {
+    // static override async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps & StyletronProps> {
+    //     const renderPage = () =>
+    //         ctx.renderPage({
+    //             enhanceApp: (App: AppType) =>
+    //                 function StyletronApp(props) {
+    //                     return (
+    //                         <StyletronProvider value={styletron}>
+    //                             <App {...props} />
+    //                         </StyletronProvider>
+    //                     )
+    //                 },
+    //         })
+    //     const initialProps = await super.getInitialProps({
+    //         ...ctx,
+    //         renderPage,
+    //     })
+    //     const stylesheets = (styletron as Server).getStylesheets()
+    //     return { ...initialProps, stylesheets: stylesheets }
+    // }
+    // override render(): JSX.Element {
+    //     return (
+    //         <Html>
+    //             <Head>
+    //                 {this.props.stylesheets?.map((sheet, i) => (
+    //                     <style
+    //                         className={HydrateClass}
+    //                         dangerouslySetInnerHTML={{ __html: sheet.css }}
+    //                         data-hydrate={sheet.attrs['data-hydrate']}
+    //                         key={i}
+    //                         media={sheet.attrs['media']}
+    //                     />
+    //                 ))}
+    //             </Head>
+    //             <body>
+    //                 <Main />
+    //                 <NextScript />
+    //             </body>
+    //         </Html>
+    //     )
+    // }
 }
 
 export default AppDocument
