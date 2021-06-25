@@ -26,7 +26,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2020"
+    "target": "esnext"
   },
   "include": [
     "next-env.d.ts",
