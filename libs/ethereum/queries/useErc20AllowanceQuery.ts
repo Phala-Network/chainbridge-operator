@@ -12,7 +12,7 @@ export const useErc20AssetHandlerAllowanceQuery = (owner?: string): UseQueryResu
     const { data: network } = useEthersNetworkQuery()
 
     return useQuery([Erc20AllowanceQueryKey, instance, owner], async () => {
-        const spender = networks[network?.chainId as number]?.erc20handler
+        const spender = networks[network?.chainId as number]?.erc20Handler
 
         if (owner === undefined || spender === undefined) {
             return
