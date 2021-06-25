@@ -14,7 +14,9 @@ export const AllowanceApprove = ({ owner }: { owner: string; value: BigNumber })
 
     const allowanceText = useMemo(() => allowance !== undefined && ethers.utils.formatUnits(allowance, 18), [allowance]) // TODO: extract this hardcoded 18
 
-    const startApprove = async () => {
+    // TODO: add transaction progress indication
+
+    const startApprove = () => {
         const network = networks[provider?.network.chainId as number]
 
         if (contract === undefined || network === undefined || signer === undefined) {
@@ -23,9 +25,7 @@ export const AllowanceApprove = ({ owner }: { owner: string; value: BigNumber })
 
         const contractSigned = contract.connect(signer)
 
-        // TODO: add transaction progress indication
-
-        return contractSigned.functions['approve']?.(network.erc20Handler, ethers.utils.parseUnits('11451419810', 18))
+        contractSigned.functions['approve']?.(network.erc20Handler, ethers.utils.parseUnits('11451419810', 18))
     }
 
     return (
