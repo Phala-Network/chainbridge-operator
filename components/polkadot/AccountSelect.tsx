@@ -7,6 +7,7 @@ import { useAddressNormalizer } from '../../libs/polkadot/useAddressNormalizer'
 
 interface InjectedAccountSelectProps {
     caption?: ReactNode
+    creatable?: boolean
     defaultAddress?: string
     error?: boolean // set to undefined to let the component verify against injected accounts
     label?: ReactNode
@@ -15,6 +16,7 @@ interface InjectedAccountSelectProps {
 
 export const InjectedAccountSelect = ({
     caption: customCaption,
+    creatable,
     defaultAddress,
     error: customError,
     label,
@@ -74,7 +76,7 @@ export const InjectedAccountSelect = ({
     return (
         <FormControl caption={caption} label={label}>
             <Select
-                creatable
+                creatable={creatable}
                 error={error}
                 isLoading={readystate !== 'ready'}
                 onChange={({ value }) => setSelectValue(value)}
