@@ -1,5 +1,5 @@
 import { BaseProvider, LightTheme } from 'baseui'
-import { AppNavBar, NavItemT, setItemActive } from 'baseui/app-nav-bar'
+import { AppNavBar, NavItemT } from 'baseui/app-nav-bar'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/dist/client/router'
 import React, { useMemo } from 'react'
