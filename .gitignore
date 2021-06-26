@@ -1,3 +1,8 @@
 .next
 .vscode
+libs/polkadot/interfaces/*
+libs/polkadot/interfaces/phala/*
+!libs/polkadot/interfaces/definitions.ts
+!libs/polkadot/interfaces/phala
+!libs/polkadot/interfaces/phala/definitions.ts
 node_modules
