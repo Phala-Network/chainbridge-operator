@@ -103,7 +103,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.9", "@babel/runtime@^7.14.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.13", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.9", "@babel/runtime@^7.14.6", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.7":
   version "7.14.6"
   resolved "https://registry.nlark.com/@babel/runtime/download/@babel/runtime-7.14.6.tgz?cache=0&sync_timestamp=1623708311372&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.14.6.tgz#535203bc0892efc7dec60bdc27b2ecf6e409062d"
   integrity sha1-U1IDvAiS78fexgvcJ7Ls9uQJBi0=
@@ -622,55 +622,55 @@
   resolved "https://registry.nlark.com/@phala/typedefs/download/@phala/typedefs-0.1.5.tgz#e303ddc400fd22464002bd4471bebb7f7220eae5"
   integrity sha1-4wPdxAD9IkZAAr1Ecb67f3Ig6uU=
 
-"@polkadot/api-derive@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.nlark.com/@polkadot/api-derive/download/@polkadot/api-derive-4.15.1.tgz#841ae233142f4b509d4db1fbcf76db15a77bed0f"
-  integrity sha1-hBriMxQvS1CdTbH7z3bbFad77Q8=
+"@polkadot/api-derive@4.16.1":
+  version "4.16.1"
+  resolved "https://registry.nlark.com/@polkadot/api-derive/download/@polkadot/api-derive-4.16.1.tgz#434c9135eeff91f2c9c4c926c8bf37dd2560d46e"
+  integrity sha1-Q0yRNe7/kfLJxMkmyL833SVg1G4=
   dependencies:
-    "@babel/runtime" "^7.14.5"
-    "@polkadot/api" "4.15.1"
-    "@polkadot/rpc-core" "4.15.1"
-    "@polkadot/types" "4.15.1"
-    "@polkadot/util" "^6.9.1"
-    "@polkadot/util-crypto" "^6.9.1"
-    "@polkadot/x-rxjs" "^6.9.1"
+    "@babel/runtime" "^7.14.6"
+    "@polkadot/api" "4.16.1"
+    "@polkadot/rpc-core" "4.16.1"
+    "@polkadot/types" "4.16.1"
+    "@polkadot/util" "^6.10.1"
+    "@polkadot/util-crypto" "^6.10.1"
+    "@polkadot/x-rxjs" "^6.10.1"
 
-"@polkadot/api@4.15.1", "@polkadot/api@^4.15.1":
-  version "4.15.1"
-  resolved "https://registry.nlark.com/@polkadot/api/download/@polkadot/api-4.15.1.tgz#c9a041b855639a98d6df0706c7546e076a8d5727"
-  integrity sha1-yaBBuFVjmpjW3wcGx1RuB2qNVyc=
+"@polkadot/api@4.16.1", "@polkadot/api@^4.15.1":
+  version "4.16.1"
+  resolved "https://registry.nlark.com/@polkadot/api/download/@polkadot/api-4.16.1.tgz#d18e63a932c8ffee48728306589e47d74d1aacce"
+  integrity sha1-0Y5jqTLI/+5IcoMGWJ5H100arM4=
   dependencies:
-    "@babel/runtime" "^7.14.5"
-    "@polkadot/api-derive" "4.15.1"
-    "@polkadot/keyring" "^6.9.1"
-    "@polkadot/metadata" "4.15.1"
-    "@polkadot/rpc-core" "4.15.1"
-    "@polkadot/rpc-provider" "4.15.1"
-    "@polkadot/types" "4.15.1"
-    "@polkadot/types-known" "4.15.1"
-    "@polkadot/util" "^6.9.1"
-    "@polkadot/util-crypto" "^6.9.1"
-    "@polkadot/x-rxjs" "^6.9.1"
+    "@babel/runtime" "^7.14.6"
+    "@polkadot/api-derive" "4.16.1"
+    "@polkadot/keyring" "^6.10.1"
+    "@polkadot/metadata" "4.16.1"
+    "@polkadot/rpc-core" "4.16.1"
+    "@polkadot/rpc-provider" "4.16.1"
+    "@polkadot/types" "4.16.1"
+    "@polkadot/types-known" "4.16.1"
+    "@polkadot/util" "^6.10.1"
+    "@polkadot/util-crypto" "^6.10.1"
+    "@polkadot/x-rxjs" "^6.10.1"
     eventemitter3 "^4.0.7"
 
 "@polkadot/extension-dapp@^0.38.6":
-  version "0.38.6"
-  resolved "https://registry.nlark.com/@polkadot/extension-dapp/download/@polkadot/extension-dapp-0.38.6.tgz#c6097e7e144d37cdb24dc5c5d661f345335333d3"
-  integrity sha1-xgl+fhRNN82yTcXF1mHzRTNTM9M=
+  version "0.38.7"
+  resolved "https://registry.nlark.com/@polkadot/extension-dapp/download/@polkadot/extension-dapp-0.38.7.tgz#e1306f2779da07cbb0b2de00f5bafaa39a186858"
+  integrity sha1-4TBvJ3naB8uwst4A9br6o5oYaFg=
   dependencies:
     "@babel/runtime" "^7.14.6"
-    "@polkadot/extension-inject" "^0.38.6"
-    "@polkadot/util" "^6.9.1"
-    "@polkadot/util-crypto" "^6.9.1"
+    "@polkadot/extension-inject" "^0.38.7"
+    "@polkadot/util" "^6.10.1"
+    "@polkadot/util-crypto" "^6.10.1"
 
-"@polkadot/extension-inject@^0.38.6":
-  version "0.38.6"
-  resolved "https://registry.nlark.com/@polkadot/extension-inject/download/@polkadot/extension-inject-0.38.6.tgz#fa6a5a4939e7b25acb90406a8d87fc047df8cc06"
-  integrity sha1-+mpaSTnnslrLkEBqjYf8BH34zAY=
+"@polkadot/extension-inject@^0.38.7":
+  version "0.38.7"
+  resolved "https://registry.nlark.com/@polkadot/extension-inject/download/@polkadot/extension-inject-0.38.7.tgz#d1a7ac0bd9e99d45fb5a40729d8315f6e319ba38"
+  integrity sha1-0aesC9npnUX7WkBynYMV9uMZujg=
   dependencies:
     "@babel/runtime" "^7.14.6"
 
-"@polkadot/keyring@^6.9.1":
+"@polkadot/keyring@^6.10.1":
   version "6.10.1"
   resolved "https://registry.nlark.com/@polkadot/keyring/download/@polkadot/keyring-6.10.1.tgz#416a5389ca75a1058dcd726c4f8a5c202c17b25f"
   integrity sha1-QWpTicp1oQWNzXJsT4pcICwXsl8=
@@ -679,72 +679,72 @@
     "@polkadot/util" "6.10.1"
     "@polkadot/util-crypto" "6.10.1"
 
-"@polkadot/metadata@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.nlark.com/@polkadot/metadata/download/@polkadot/metadata-4.15.1.tgz#3cd2392b956577edf96090793fd8b9b392a67502"
-  integrity sha1-PNI5K5Vld+35YJB5P9i5s5KmdQI=
+"@polkadot/metadata@4.16.1":
+  version "4.16.1"
+  resolved "https://registry.nlark.com/@polkadot/metadata/download/@polkadot/metadata-4.16.1.tgz#26dd7552ae4c77995e8060bd21c7a933062d4049"
+  integrity sha1-Jt11Uq5Md5legGC9IcepMwYtQEk=
   dependencies:
-    "@babel/runtime" "^7.14.5"
-    "@polkadot/types" "4.15.1"
-    "@polkadot/types-known" "4.15.1"
-    "@polkadot/util" "^6.9.1"
-    "@polkadot/util-crypto" "^6.9.1"
+    "@babel/runtime" "^7.14.6"
+    "@polkadot/types" "4.16.1"
+    "@polkadot/types-known" "4.16.1"
+    "@polkadot/util" "^6.10.1"
+    "@polkadot/util-crypto" "^6.10.1"
 
-"@polkadot/networks@6.10.1", "@polkadot/networks@^6.9.1":
+"@polkadot/networks@6.10.1", "@polkadot/networks@^6.10.1":
   version "6.10.1"
   resolved "https://registry.nlark.com/@polkadot/networks/download/@polkadot/networks-6.10.1.tgz#e0a53f9860729ac77759a6983af0e0b527560d04"
   integrity sha1-4KU/mGBymsd3WaaYOvDgtSdWDQQ=
   dependencies:
     "@babel/runtime" "^7.14.6"
 
-"@polkadot/rpc-core@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.nlark.com/@polkadot/rpc-core/download/@polkadot/rpc-core-4.15.1.tgz#2e14edcdf8cd4e6f9658ecbd90540a9d39c3e929"
-  integrity sha1-LhTtzfjNTm+WWOy9kFQKnTnD6Sk=
+"@polkadot/rpc-core@4.16.1":
+  version "4.16.1"
+  resolved "https://registry.nlark.com/@polkadot/rpc-core/download/@polkadot/rpc-core-4.16.1.tgz#ae06b8a63e5c709d0ce6e4003dfaf9af6234d321"
+  integrity sha1-rga4pj5ccJ0M5uQAPfr5r2I00yE=
   dependencies:
-    "@babel/runtime" "^7.14.5"
-    "@polkadot/metadata" "4.15.1"
-    "@polkadot/rpc-provider" "4.15.1"
-    "@polkadot/types" "4.15.1"
-    "@polkadot/util" "^6.9.1"
-    "@polkadot/x-rxjs" "^6.9.1"
+    "@babel/runtime" "^7.14.6"
+    "@polkadot/metadata" "4.16.1"
+    "@polkadot/rpc-provider" "4.16.1"
+    "@polkadot/types" "4.16.1"
+    "@polkadot/util" "^6.10.1"
+    "@polkadot/x-rxjs" "^6.10.1"
 
-"@polkadot/rpc-provider@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.nlark.com/@polkadot/rpc-provider/download/@polkadot/rpc-provider-4.15.1.tgz#18a61b5353388da73f722f30905f23927b2c5e31"
-  integrity sha1-GKYbU1M4jac/ci8wkF8jknssXjE=
+"@polkadot/rpc-provider@4.16.1":
+  version "4.16.1"
+  resolved "https://registry.nlark.com/@polkadot/rpc-provider/download/@polkadot/rpc-provider-4.16.1.tgz#8ee9fe8f1a5a6c6021b2b0c2ae377c78ee0be344"
+  integrity sha1-jun+jxpabGAhsrDCrjd8eO4L40Q=
   dependencies:
-    "@babel/runtime" "^7.14.5"
-    "@polkadot/types" "4.15.1"
-    "@polkadot/util" "^6.9.1"
-    "@polkadot/util-crypto" "^6.9.1"
-    "@polkadot/x-fetch" "^6.9.1"
-    "@polkadot/x-global" "^6.9.1"
-    "@polkadot/x-ws" "^6.9.1"
+    "@babel/runtime" "^7.14.6"
+    "@polkadot/types" "4.16.1"
+    "@polkadot/util" "^6.10.1"
+    "@polkadot/util-crypto" "^6.10.1"
+    "@polkadot/x-fetch" "^6.10.1"
+    "@polkadot/x-global" "^6.10.1"
+    "@polkadot/x-ws" "^6.10.1"
     eventemitter3 "^4.0.7"
 
-"@polkadot/types-known@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.nlark.com/@polkadot/types-known/download/@polkadot/types-known-4.15.1.tgz#d60cfb1e4ed315f2c82646795243a34df6b21fd3"
-  integrity sha1-1gz7Hk7TFfLIJkZ5UkOjTfayH9M=
+"@polkadot/types-known@4.16.1":
+  version "4.16.1"
+  resolved "https://registry.nlark.com/@polkadot/types-known/download/@polkadot/types-known-4.16.1.tgz#9e382abfce333e090b9b7339cfdb902c6b9e3ebd"
+  integrity sha1-njgqv84zPgkLm3M5z9uQLGuePr0=
   dependencies:
-    "@babel/runtime" "^7.14.5"
-    "@polkadot/networks" "^6.9.1"
-    "@polkadot/types" "4.15.1"
-    "@polkadot/util" "^6.9.1"
+    "@babel/runtime" "^7.14.6"
+    "@polkadot/networks" "^6.10.1"
+    "@polkadot/types" "4.16.1"
+    "@polkadot/util" "^6.10.1"
 
-"@polkadot/types@4.15.1":
-  version "4.15.1"
-  resolved "https://registry.nlark.com/@polkadot/types/download/@polkadot/types-4.15.1.tgz#03f32fd4ce81d69c43368d3e476c0421cedb8607"
-  integrity sha1-A/Mv1M6B1pxDNo0+R2wEIc7bhgc=
+"@polkadot/types@4.16.1":
+  version "4.16.1"
+  resolved "https://registry.nlark.com/@polkadot/types/download/@polkadot/types-4.16.1.tgz#fb1b04b4b810cb28328e757edeb93417946374a6"
+  integrity sha1-+xsEtLgQyygyjnV+3rk0F5RjdKY=
   dependencies:
-    "@babel/runtime" "^7.14.5"
-    "@polkadot/metadata" "4.15.1"
-    "@polkadot/util" "^6.9.1"
-    "@polkadot/util-crypto" "^6.9.1"
-    "@polkadot/x-rxjs" "^6.9.1"
+    "@babel/runtime" "^7.14.6"
+    "@polkadot/metadata" "4.16.1"
+    "@polkadot/util" "^6.10.1"
+    "@polkadot/util-crypto" "^6.10.1"
+    "@polkadot/x-rxjs" "^6.10.1"
 
-"@polkadot/util-crypto@6.10.1", "@polkadot/util-crypto@^6.9.1":
+"@polkadot/util-crypto@6.10.1", "@polkadot/util-crypto@^6.10.1", "@polkadot/util-crypto@^6.9.1":
   version "6.10.1"
   resolved "https://registry.nlark.com/@polkadot/util-crypto/download/@polkadot/util-crypto-6.10.1.tgz#76ff96734a830bf3ed5fd280b5eff4b9c016e997"
   integrity sha1-dv+Wc0qDC/PtX9KAte/0ucAW6Zc=
@@ -766,7 +766,7 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@6.10.1", "@polkadot/util@^6.9.1":
+"@polkadot/util@6.10.1", "@polkadot/util@^6.10.1", "@polkadot/util@^6.9.1":
   version "6.10.1"
   resolved "https://registry.nlark.com/@polkadot/util/download/@polkadot/util-6.10.1.tgz#4a88a21ea3df7e8a1dd60a96362af15170b21a5d"
   integrity sha1-SoiiHqPffood1gqWNirxUXCyGl0=
@@ -802,7 +802,7 @@
     "@polkadot/wasm-crypto-asmjs" "^4.0.2"
     "@polkadot/wasm-crypto-wasm" "^4.0.2"
 
-"@polkadot/x-fetch@^6.9.1":
+"@polkadot/x-fetch@^6.10.1":
   version "6.10.1"
   resolved "https://registry.nlark.com/@polkadot/x-fetch/download/@polkadot/x-fetch-6.10.1.tgz#1b69e1b92ea27d2592a6dcb53e66648e5bfc760b"
   integrity sha1-G2nhuS6ifSWSpty1PmZkjlv8dgs=
@@ -812,7 +812,7 @@
     "@types/node-fetch" "^2.5.10"
     node-fetch "^2.6.1"
 
-"@polkadot/x-global@6.10.1", "@polkadot/x-global@^6.9.1":
+"@polkadot/x-global@6.10.1", "@polkadot/x-global@^6.10.1":
   version "6.10.1"
   resolved "https://registry.nlark.com/@polkadot/x-global/download/@polkadot/x-global-6.10.1.tgz#abf9705ed896b9eb8978e1998cefdc2125e599f7"
   integrity sha1-q/lwXtiWueuJeOGZjO/cISXlmfc=
@@ -829,7 +829,7 @@
     "@babel/runtime" "^7.14.6"
     "@polkadot/x-global" "6.10.1"
 
-"@polkadot/x-rxjs@^6.9.1":
+"@polkadot/x-rxjs@^6.10.1":
   version "6.10.1"
   resolved "https://registry.nlark.com/@polkadot/x-rxjs/download/@polkadot/x-rxjs-6.10.1.tgz#ad21991e2d62dff9f7de97f00f71ab7d88da068a"
   integrity sha1-rSGZHi1i3/n33pfwD3GrfYjaBoo=
@@ -853,7 +853,7 @@
     "@babel/runtime" "^7.14.6"
     "@polkadot/x-global" "6.10.1"
 
-"@polkadot/x-ws@^6.9.1":
+"@polkadot/x-ws@^6.10.1":
   version "6.10.1"
   resolved "https://registry.nlark.com/@polkadot/x-ws/download/@polkadot/x-ws-6.10.1.tgz#7c188b6c034eb9437c1fc1fe3974dd90e03086df"
   integrity sha1-fBiLbANOuUN8H8H+OXTdkOAwht8=
@@ -3602,9 +3602,9 @@ prettier-linter-helpers@^1.0.0:
     fast-diff "^1.1.2"
 
 prettier@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.nlark.com/prettier/download/prettier-2.3.1.tgz#76903c3f8c4449bc9ac597acefa24dc5ad4cbea6"
-  integrity sha1-dpA8P4xESbyaxZes76JNxa1MvqY=
+  version "2.3.2"
+  resolved "https://registry.nlark.com/prettier/download/prettier-2.3.2.tgz#ef280a05ec253712e486233db5c6f23441e7342d"
+  integrity sha1-7ygKBewlNxLkhiM9tcbyNEHnNC0=
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
