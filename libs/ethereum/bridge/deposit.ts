@@ -2,14 +2,14 @@ import { isHex } from '@polkadot/util'
 import { BigNumber, ethers } from 'ethers'
 import { useMemo } from 'react'
 import { useEthers } from '../contexts/useEthers'
-import { useNetworkConfig } from '../queries/useNetworkConfigQuery'
+import { useEthereumNetworkOptions } from '../queries/useNetworkConfigQuery'
 import { useBridgeContract } from './useBridgeContract'
 
 type Deposit = (amount: BigNumber, recipient: string) => Promise<string> // TODO: use HexString
 
 export const useErc20Deposit = (sender?: string): Deposit | undefined => {
     const { contract } = useBridgeContract()
-    const config = useNetworkConfig()
+    const config = useEthereumNetworkOptions()
     const { provider } = useEthers()
 
     const bridge = useMemo(() => {
