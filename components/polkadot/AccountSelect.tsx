@@ -99,8 +99,6 @@ export const InjectedAccountSelectWithBalanceCaption = (props: InjectedAccountSe
     const [account, setAccount] = useState<string>()
     const { data: balance } = useBalanceQuery(account)
 
-    console.log('balance:', balance)
-
     const balanceString = useMemo(() => {
         return balance !== undefined && decimals !== undefined
             ? `${bnToDecimal(balance, decimals).toString()} PHA`
