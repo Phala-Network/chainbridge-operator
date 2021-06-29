@@ -1,3 +1,4 @@
+import { ExtrinsicStatus } from '@polkadot/types/interfaces'
 import { FormControl } from 'baseui/form-control'
 import { Input } from 'baseui/input'
 import { Decimal } from 'decimal.js'
@@ -5,6 +6,8 @@ import { ethers } from 'ethers'
 import React, { useMemo, useState } from 'react'
 import { InjectedAccountSelectWithBalanceCaption as EthereumInjectedAccountSelectWithBalanceCaption } from '../components/ethereum/AccountSelect'
 import { InjectedAccountSelectWithBalanceCaption as PolkadotInjectedAccountSelectWithBalanceCaption } from '../components/polkadot/AccountSelect'
+import { TransferSubmit } from '../components/polkadot/TransferSubmit'
+import { useEthereumNetworkOptions } from '../libs/ethereum/queries/useNetworkConfigQuery'
 import { useApiPromise } from '../libs/polkadot/hooks/useApiPromise'
 import { useDecimalJsTokenDecimalMultiplier } from '../libs/polkadot/useTokenDecimals'
 import { bnToDecimal, decimalToBalance } from '../libs/polkadot/utils/balances'
@@ -12,11 +15,12 @@ import { bnToDecimal, decimalToBalance } from '../libs/polkadot/utils/balances'
 const validAmount = /^\d+(\.(\d+)?)?$/
 
 const TransferToEthereumPage = (): JSX.Element => {
-    const [, setAccount] = useState<string>()
+    const [account, setAccount] = useState<string>() // sender
     const [amountInput, setAmountInput] = useState<string>()
-    const [, setRecipient] = useState<string>()
+    const [recipient, setRecipient] = useState<string>()
 
     const { api } = useApiPromise()
+    const destChainId = useEthereumNetworkOptions()?.destChainId
     const decimals = useDecimalJsTokenDecimalMultiplier(api)
 
     const handleRecipientChange = (value?: string) => {
@@ -44,6 +48,9 @@ const TransferToEthereumPage = (): JSX.Element => {
         }
     }, [amount, decimals])
 
+    const [submitError, setSubmitError] = useState<Error>()
+    const [submitStatus, setSubmitStatus] = useState<ExtrinsicStatus>()
+
     return (
         <>
             <>
@@ -62,7 +69,18 @@ const TransferToEthereumPage = (): JSX.Element => {
                     onChange={(account) => handleRecipientChange(account)}
                 />
 
-                {/* TODO: submit button goes here */}
+                <TransferSubmit
+                    amount={amount}
+                    destChainId={destChainId}
+                    onerror={(error) => setSubmitError(error)}
+                    onstatus={(status) => setSubmitStatus(status)}
+                    recipient={recipient}
+                    sender={account}
+                />
+
+                {/* TODO: improve error & status display */}
+                {submitError && <>Error: {submitError?.message ?? JSON.stringify(submitError)}</>}
+                {submitStatus && <>Status: {submitStatus.toString()}</>}
             </>
         </>
     )
