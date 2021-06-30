@@ -11,7 +11,7 @@
         "typegen:from-chain": "ts-node --skip-project node_modules/@polkadot/typegen/scripts/polkadot-types-from-chain.cjs --package '.' --output ./libs/polkadot/interfaces --endpoint"
     },
     "dependencies": {
-        "@phala/typedefs": "^0.2.0",
+        "@phala/typedefs": "^0.2.1",
         "@polkadot/api": "^4.15.1",
         "@polkadot/extension-dapp": "^0.38.6",
         "@polkadot/types": "^4.16.2",
