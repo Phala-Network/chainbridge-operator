@@ -8,6 +8,7 @@ import { useErc20BalanceQuery } from '../../libs/ethereum/queries/useErc20Balanc
 
 interface InjectedAccountSelectProps {
     caption?: ReactNode
+    creatable?: boolean
     defaultAddress?: string
     error?: boolean // set to undefined to let the component verify against injected accounts
     label?: ReactNode
@@ -52,6 +53,7 @@ export const InjectedAccountSelect = ({
     return (
         <FormControl caption={caption} label={label}>
             <Select
+                creatable
                 error={error}
                 isLoading={readystate !== 'connected'}
                 onChange={({ value }) => setSelectValue(value)}

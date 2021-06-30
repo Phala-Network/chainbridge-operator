@@ -4,9 +4,13 @@ import { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react'
 import { useApiPromise } from '../../libs/polkadot/hooks/useApiPromise'
 import { useWeb3 } from '../../libs/polkadot/hooks/useWeb3'
 import { useAddressNormalizer } from '../../libs/polkadot/useAddressNormalizer'
+import { useBalanceQuery } from '../../libs/polkadot/useBalanceQuery'
+import { useDecimalJsTokenDecimalMultiplier } from '../../libs/polkadot/useTokenDecimals'
+import { bnToDecimal } from '../../libs/polkadot/utils/balances'
 
 interface InjectedAccountSelectProps {
     caption?: ReactNode
+    creatable?: boolean
     defaultAddress?: string
     error?: boolean // set to undefined to let the component verify against injected accounts
     label?: ReactNode
@@ -15,6 +19,7 @@ interface InjectedAccountSelectProps {
 
 export const InjectedAccountSelect = ({
     caption: customCaption,
+    creatable,
     defaultAddress,
     error: customError,
     label,
@@ -74,7 +79,7 @@ export const InjectedAccountSelect = ({
     return (
         <FormControl caption={caption} label={label}>
             <Select
-                creatable
+                creatable={creatable}
                 error={error}
                 isLoading={readystate !== 'ready'}
                 onChange={({ value }) => setSelectValue(value)}
@@ -83,4 +88,29 @@ export const InjectedAccountSelect = ({
             />
         </FormControl>
     )
+}
+
+export const InjectedAccountSelectWithBalanceCaption = (props: InjectedAccountSelectProps): JSX.Element => {
+    const { caption: customCaption, onChange: parentOnChange } = props
+
+    const { api } = useApiPromise()
+    const decimals = useDecimalJsTokenDecimalMultiplier(api)
+
+    const [account, setAccount] = useState<string>()
+    const { data: balance } = useBalanceQuery(account)
+
+    const balanceString = useMemo(() => {
+        return balance !== undefined && decimals !== undefined
+            ? `${bnToDecimal(balance, decimals).toString()} PHA`
+            : account !== undefined
+            ? 'Loading'
+            : undefined
+    }, [account, balance, decimals])
+
+    const onChange = (account?: string) => {
+        setAccount(account)
+        parentOnChange(account)
+    }
+
+    return <InjectedAccountSelect {...props} caption={customCaption ?? balanceString} onChange={onChange} />
 }

@@ -1,7 +1,7 @@
 import type { ethers } from 'ethers'
 import { useQuery, UseQueryResult } from 'react-query'
-import { useEthers } from '../contexts/useEthers'
 import { v4 as uuidv4 } from 'uuid'
+import { useEthers } from '../contexts/useEthers'
 
 const EthersNetworkQueryKey = uuidv4()
 

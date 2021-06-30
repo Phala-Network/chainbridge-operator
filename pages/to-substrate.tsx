@@ -60,6 +60,7 @@ const TransferToSubstratePage = (): JSX.Element => {
             </FormControl>
 
             <PolkadotInjectedAccountSelect
+                creatable
                 label="To Phala Recipient"
                 onChange={(account) => handleRecipientChange(account)}
             />
