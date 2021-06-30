@@ -10,5 +10,5 @@ export const ExtrinsicStatusIndicator = ({ status }: { status: ExtrinsicStatus }
         return <>The transaction is being accepted by the network.</>
     }
 
-    return <>The state of transaction is unknown.</>
+    return <>Unexpected transaction status: {status.toString()}</>
 }
