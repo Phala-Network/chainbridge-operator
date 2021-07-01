@@ -5,9 +5,10 @@ import { useEthers } from '../contexts/useEthers'
 import { useEthereumNetworkOptions } from '../queries/useNetworkConfigQuery'
 import { useBridgeContract } from './useBridgeContract'
 
-type Deposit = (amount: BigNumber, recipient: string) => Promise<string> // TODO: use HexString
 
-export const useErc20Deposit = (sender?: string): Deposit | undefined => {
+type DepositSubmitFn = (amount: BigNumber, recipient: string) => Promise<ethers.providers.TransactionResponse> // TODO: use HexString
+
+export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined => {
     const { contract } = useBridgeContract()
     const config = useEthereumNetworkOptions()
     const { provider } = useEthers()
@@ -40,7 +41,11 @@ export const useErc20Deposit = (sender?: string): Deposit | undefined => {
 
             const payload = `0x${amountPayload}${recipientSize}${recipientPayload}`
 
-            return await (bridge.functions['deposit'](1, config.erc20DepositResourceId, payload) as Promise<string>)
+            return await (bridge.functions['deposit'](
+                1,
+                config.erc20DepositResourceId,
+                payload
+            ) as Promise<ethers.providers.TransactionResponse>)
         }
     }, [bridge, config, sender])
 }
