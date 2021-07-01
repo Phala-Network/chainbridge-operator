@@ -12,7 +12,6 @@ import { AllowanceApprove } from '../components/ethereum/AllowanceGrant'
 import { InjectedAccountSelect as PolkadotInjectedAccountSelect } from '../components/polkadot/AccountSelect'
 import { useErc20Deposit } from '../libs/ethereum/bridge/deposit'
 import { useErc20AssetHandlerAllowanceQuery } from '../libs/ethereum/queries/useErc20AllowanceQuery'
-import { useTransactionReceiptQuery } from '../libs/ethereum/queries/useTransactionReceiptQuery'
 
 const validAmount = /^\d+(\.(\d+)?)?$/
 
