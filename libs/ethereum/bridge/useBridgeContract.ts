@@ -5,7 +5,10 @@ import { networks } from '../../../config'
 import { useEthers } from '../contexts/useEthers'
 import { useEthersNetworkQuery } from '../queries/useEthersNetworkQuery'
 
-const bridgeInterface = ['function deposit(uint8 destinationChainID, bytes32 resourceID, bytes calldata data)']
+export const BridgeInterface = [
+    'event Deposit(uint8 destinationChainID, bytes32 resourceID, uint64 depositNonce)',
+    'function deposit(uint8 destinationChainID, bytes32 resourceID, bytes calldata data)',
+]
 
 export const useBridgeContract = (addressOrName?: string): { contract?: Contract; instance?: string } => {
     const { signer } = useEthers()
@@ -20,7 +23,7 @@ export const useBridgeContract = (addressOrName?: string): { contract?: Contract
         }
 
         return {
-            contract: new ethers.Contract(bridge, bridgeInterface, signer),
+            contract: new ethers.Contract(bridge, BridgeInterface, signer),
             instance: uuidv4(),
         }
     }, [addressOrName, chainId, signer])
