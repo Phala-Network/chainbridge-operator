@@ -3,12 +3,12 @@ import { decodeAddress } from '@polkadot/util-crypto'
 import { Button } from 'baseui/button'
 import { FormControl } from 'baseui/form-control'
 import { Input } from 'baseui/input'
-import { StyledLink } from 'baseui/link'
 import { KIND as NotificationKind, Notification } from 'baseui/notification'
 import { BigNumber, ethers } from 'ethers'
 import React, { useMemo, useState } from 'react'
 import { InjectedAccountSelectWithBalanceCaption as EthereumInjectedAccountSelectWithBalanceCaption } from '../components/ethereum/AccountSelect'
 import { AllowanceApprove } from '../components/ethereum/AllowanceGrant'
+import { DepositStatus } from '../components/ethereum/DepositStatus'
 import { InjectedAccountSelect as PolkadotInjectedAccountSelect } from '../components/polkadot/AccountSelect'
 import { useErc20Deposit } from '../libs/ethereum/bridge/deposit'
 import { useErc20AssetHandlerAllowanceQuery } from '../libs/ethereum/queries/useErc20AllowanceQuery'
@@ -114,15 +114,7 @@ const TransferToSubstratePage = (): JSX.Element => {
 
             {lastTxResponse && (
                 <Notification kind={NotificationKind.positive} overrides={{ Body: { style: { width: 'auto' } } }}>
-                    Transaction Hash:&nbsp;
-                    <StyledLink
-                        href="#"
-                        onClick={() => {
-                            navigator.clipboard.writeText(lastTxResponse.hash).catch(() => {})
-                        }}
-                    >
-                        {lastTxResponse.hash}
-                    </StyledLink>
+                    {lastTxResponse?.hash && <DepositStatus hash={lastTxResponse?.hash} />}
                 </Notification>
             )}
         </>

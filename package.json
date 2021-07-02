@@ -19,6 +19,7 @@
         "@polkadot/util-crypto": "^6.9.1",
         "@types/uuid": "^8.3.0",
         "baseui": "^9.116.2",
+        "dayjs": "^1.10.5",
         "decimal.js": "^10.3.1",
         "eslint-config-next": "^11.0.1",
         "ethers": "^5.3.1",
