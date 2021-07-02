@@ -113,7 +113,10 @@ const TransferToSubstratePage = (): JSX.Element => {
             )}
 
             {lastTxResponse && (
-                <Notification kind={NotificationKind.positive} overrides={{ Body: { style: { width: 'auto' } } }}>
+                <Notification
+                    kind={lastTxResponse.confirmations > 0 ? NotificationKind.positive : NotificationKind.warning}
+                    overrides={{ Body: { style: { width: 'auto' } } }}
+                >
                     {lastTxResponse?.hash && <DepositStatus hash={lastTxResponse?.hash} />}
                 </Notification>
             )}
