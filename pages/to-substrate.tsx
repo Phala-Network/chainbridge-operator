@@ -12,6 +12,7 @@ import { DepositStatus } from '../components/ethereum/DepositStatus'
 import { InjectedAccountSelect as PolkadotInjectedAccountSelect } from '../components/polkadot/AccountSelect'
 import { useErc20Deposit } from '../libs/ethereum/bridge/deposit'
 import { useErc20AssetHandlerAllowanceQuery } from '../libs/ethereum/queries/useErc20AllowanceQuery'
+import { useTransactionReceiptQuery } from '../libs/ethereum/queries/useTransactionReceiptQuery'
 
 const validAmount = /^\d+(\.(\d+)?)?$/
 
@@ -57,6 +58,7 @@ const TransferToSubstratePage = (): JSX.Element => {
     const [lastTxError, setTxError] = useState<Error>()
     const [lastTxResponse, setTxResponse] = useState<ethers.providers.TransactionResponse>()
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
+    const { data: lastTxReceiept } = useTransactionReceiptQuery(lastTxResponse?.hash)
 
     const ready = useMemo(
         () => account !== undefined && amount !== undefined && recipient !== undefined && !isSubmitting,
@@ -114,7 +116,11 @@ const TransferToSubstratePage = (): JSX.Element => {
 
             {lastTxResponse && (
                 <Notification
-                    kind={lastTxResponse.confirmations > 0 ? NotificationKind.positive : NotificationKind.warning}
+                    kind={
+                        lastTxReceiept?.confirmations !== undefined && lastTxReceiept.confirmations > 0
+                            ? NotificationKind.positive
+                            : NotificationKind.warning
+                    }
                     overrides={{ Body: { style: { width: 'auto' } } }}
                 >
                     {lastTxResponse?.hash && <DepositStatus hash={lastTxResponse?.hash} />}
