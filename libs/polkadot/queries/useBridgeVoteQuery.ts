@@ -28,21 +28,33 @@ export const useBridgeVoteQuery = ({
     const { api } = useApiPromise()
     const tokenDecimals = useDecimalJsTokenDecimalMultiplier(api)
 
-    return useQuery([BridgeVoteQueryKey, srcChainId, numberNonce], async () => {
-        if (decimalAmount === undefined || api === undefined || tokenDecimals === undefined) {
-            return
+    return useQuery(
+        [
+            BridgeVoteQueryKey,
+            decimalAmount,
+            numberNonce,
+            recipient,
+            resourceId,
+            srcChainId,
+            tokenDecimals,
+            api === undefined,
+        ],
+        async () => {
+            if (decimalAmount === undefined || api === undefined || tokenDecimals === undefined) {
+                return
+            }
+
+            const call = api.registry.createType('Call', {
+                args: [
+                    decodeAddress(recipient),
+                    decimalToBalance(decimalAmount, tokenDecimals, api),
+                    hexToU8a(resourceId, 256),
+                ],
+                callIndex: api.tx.bridgeTransfer.transfer.callIndex,
+            })
+
+            const result = (await api.query.chainBridge.votes(srcChainId, [numberNonce, call])) as Option<ProposalVotes>
+            return result.unwrapOr(undefined)
         }
-
-        const call = api.registry.createType('Call', {
-            args: [
-                decodeAddress(recipient),
-                decimalToBalance(decimalAmount, tokenDecimals, api),
-                hexToU8a(resourceId, 256),
-            ],
-            callIndex: api.tx.bridgeTransfer.transfer.callIndex,
-        })
-
-        const result = (await api.query.chainBridge.votes(srcChainId, [numberNonce, call])) as Option<ProposalVotes>
-        return result.unwrapOr(undefined)
-    })
+    )
 }

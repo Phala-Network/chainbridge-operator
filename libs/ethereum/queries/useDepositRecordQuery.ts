@@ -23,7 +23,7 @@ export const useDepositRecordQuery = (destChainId?: number, nonce?: number): Use
     const { contract: handler } = useErc20HandlerInterface()
     const { data: network } = useEthersNetworkQuery()
 
-    return useQuery([DepositRecordQueryKey, destChainId, nonce], async () => {
+    return useQuery([DepositRecordQueryKey, destChainId, nonce, network?.chainId], async () => {
         if (destChainId === undefined || network === undefined || nonce === undefined) {
             return
         }

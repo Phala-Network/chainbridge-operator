@@ -18,7 +18,7 @@ export const useDepositNonceQuery = (hash?: string): UseQueryResult<number> => {
         return bridge?.filters['Deposit']?.(null, null, null).topics?.[0]
     }, [bridge?.filters])
 
-    return useQuery([DepositNonceQueryKey, hash], () => {
+    return useQuery([DepositNonceQueryKey, receipt, depositEventFilter], () => {
         if (ethereum === undefined || receipt === undefined) {
             return
         }
