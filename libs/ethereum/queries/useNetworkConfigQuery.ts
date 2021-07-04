@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { networks } from '../../../config'
+import { ethereums } from '../../../config'
 import { EthereumNetworkOptions } from '../../configuration'
 import { useEthersNetworkQuery } from './useEthersNetworkQuery'
 
@@ -8,5 +8,6 @@ import { useEthersNetworkQuery } from './useEthersNetworkQuery'
  */
 export const useEthereumNetworkOptions = (chainId?: number): EthereumNetworkOptions | undefined => {
     const { data: network } = useEthersNetworkQuery()
-    return useMemo(() => networks[chainId ?? (network?.chainId as number)], [chainId, network?.chainId])
+    chainId = chainId ?? network?.chainId
+    return useMemo(() => (typeof chainId === 'number' ? ethereums[chainId] : undefined), [chainId])
 }
