@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { ethereums } from '../../../config'
 import { useEthers } from '../contexts/useEthers'
 import { useEthersNetworkQuery } from '../queries/useEthersNetworkQuery'
-import { abi } from './Erc20HandlerAbi.json'
+import abi from './Erc20HandlerAbi.json'
 
 export const useErc20HandlerInterface = (addressOrName?: string): { contract?: Contract; instance?: string } => {
     const { signer } = useEthers()
