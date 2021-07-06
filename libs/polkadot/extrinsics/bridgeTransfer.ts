@@ -1,7 +1,7 @@
 import { ApiPromise } from '@polkadot/api'
 import { BalanceOf, ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
 import { useMemo } from 'react'
-import { useEthereumNetworkOptions } from '../../ethereum/queries/useNetworkConfigQuery'
+import { useEthereumNetworkOptions } from '../../ethereum/queries/useEthereumNetworkOptions'
 import { useApiPromise } from '../hooks/useApiPromise'
 import { waitSignAndSend } from '../utils/signAndSend'
 
@@ -43,7 +43,7 @@ type TransferSubmit = (
  */
 export const useTransferSubmit = (chainId?: number): TransferSubmit | undefined => {
     const { api } = useApiPromise()
-    const destChainId = useEthereumNetworkOptions(chainId)?.destChainId
+    const destChainId = useEthereumNetworkOptions(chainId).options?.destChainId
 
     return useMemo(() => {
         if (api === undefined || destChainId === undefined) {

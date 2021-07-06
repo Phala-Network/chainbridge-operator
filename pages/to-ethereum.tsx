@@ -10,15 +10,18 @@ import React, { useMemo, useState } from 'react'
 import { InjectedAccountSelectWithBalanceCaption as EthereumInjectedAccountSelectWithBalanceCaption } from '../components/ethereum/AccountSelect'
 import { InjectedAccountSelectWithBalanceCaption as PolkadotInjectedAccountSelectWithBalanceCaption } from '../components/polkadot/AccountSelect'
 import { ExtrinsicStatusIndicator } from '../components/polkadot/ExtrinsicStatusIndicator'
+import { useEthereumNetworkOptions } from '../libs/ethereum/queries/useEthereumNetworkOptions'
 import { useTransferSubmit } from '../libs/polkadot/extrinsics/bridgeTransfer'
 import { useApiPromise } from '../libs/polkadot/hooks/useApiPromise'
 import { useDecimalJsTokenDecimalMultiplier } from '../libs/polkadot/useTokenDecimals'
 import { bnToDecimal, decimalToBalance } from '../libs/polkadot/utils/balances'
+
 const validAmount = /^\d+(\.(\d+)?)?$/
 
 const TransferToEthereumPage = (): JSX.Element => {
     const { api } = useApiPromise()
     const decimals = useDecimalJsTokenDecimalMultiplier(api)
+    const { error: ethereumOptionsError } = useEthereumNetworkOptions()
     const submit = useTransferSubmit(/* NOTE: pass destination Ethereum network Id here to override */)
 
     const [account, setAccount] = useState<string>() // sender
@@ -81,6 +84,10 @@ const TransferToEthereumPage = (): JSX.Element => {
     return (
         <>
             <>
+                {ethereumOptionsError !== undefined && (
+                    <Notification kind={NotificationKind.negative}>{ethereumOptionsError.message}</Notification>
+                )}
+
                 <PolkadotInjectedAccountSelectWithBalanceCaption
                     creatable
                     label="From Phala Account"
@@ -125,4 +132,5 @@ const TransferToEthereumPage = (): JSX.Element => {
         </>
     )
 }
+
 export default TransferToEthereumPage

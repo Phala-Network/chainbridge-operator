@@ -8,15 +8,15 @@ import { substrate } from '../../config'
 import { bigNumberToDecimal } from '../../libs/ethereum/bridge/utils/balances'
 import { useDepositNonceQuery } from '../../libs/ethereum/queries/useDepositNonceQuery'
 import { useDepositRecordQuery } from '../../libs/ethereum/queries/useDepositRecordQuery'
+import { useEthereumNetworkOptions } from '../../libs/ethereum/queries/useEthereumNetworkOptions'
 import { useEthersNetworkQuery } from '../../libs/ethereum/queries/useEthersNetworkQuery'
-import { useEthereumNetworkOptions } from '../../libs/ethereum/queries/useNetworkConfigQuery'
 import { useTransactionReceiptQuery } from '../../libs/ethereum/queries/useTransactionReceiptQuery'
 import { useBridgeVoteQuery } from '../../libs/polkadot/queries/useBridgeVoteQuery'
 
 dayjs.extend(RelativeTime)
 
 export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
-    const ethereum = useEthereumNetworkOptions()
+    const { options: ethereum } = useEthereumNetworkOptions()
     const { data: network } = useEthersNetworkQuery()
     const { data: receipt, isLoading: isReceiptLoading, dataUpdatedAt } = useTransactionReceiptQuery(hash)
 
@@ -25,7 +25,7 @@ export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
     const { data: depositNonce, isLoading: isDepositNonceLoading } = useDepositNonceQuery(hash)
     const { data: depositRecord } = useDepositRecordQuery(dstChainId, depositNonce)
 
-    const amount = useMemo(() => bigNumberToDecimal(depositRecord?.amount, 12), [depositRecord?.amount])
+    const amount = useMemo(() => bigNumberToDecimal(depositRecord?.amount, 12), [depositRecord?.amount]) // TODO: extract hardcoded decimal factor
 
     const { data: vote, isLoading: isVoteLoading } = useBridgeVoteQuery({
         amount,

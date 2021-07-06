@@ -3,15 +3,15 @@ import { BigNumber, ethers } from 'ethers'
 import { useMemo } from 'react'
 import { substrate } from '../../../config'
 import { useEthers } from '../contexts/useEthers'
+import { useEthereumNetworkOptions } from '../queries/useEthereumNetworkOptions'
 import { useEthersNetworkQuery } from '../queries/useEthersNetworkQuery'
-import { useEthereumNetworkOptions } from '../queries/useNetworkConfigQuery'
 import { useBridgeContract } from './useBridgeContract'
 
 type DepositSubmitFn = (amount: BigNumber, recipient: string) => Promise<ethers.providers.TransactionResponse> // TODO: use HexString
 
 export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined => {
     const { contract } = useBridgeContract()
-    const config = useEthereumNetworkOptions()
+    const { options: config } = useEthereumNetworkOptions()
     const { data: network } = useEthersNetworkQuery()
     const { provider } = useEthers()
 
