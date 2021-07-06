@@ -25,7 +25,7 @@ export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
     const { data: depositNonce, isLoading: isDepositNonceLoading } = useDepositNonceQuery(hash)
     const { data: depositRecord } = useDepositRecordQuery(dstChainId, depositNonce)
 
-    const amount = useMemo(() => bigNumberToDecimal(depositRecord?.amount, 12), [depositRecord?.amount])
+    const amount = useMemo(() => bigNumberToDecimal(depositRecord?.amount, 12), [depositRecord?.amount]) // TODO: extract hardcoded decimal factor
 
     const { data: vote, isLoading: isVoteLoading } = useBridgeVoteQuery({
         amount,
