@@ -1,10 +1,16 @@
-import { useQuery, UseQueryResult } from 'react-query'
-import { v4 as uuidv4 } from 'uuid'
+import { useEffect, useState } from 'react'
 import { useEthers } from '../contexts/useEthers'
 
-const AccountQueryKey = uuidv4()
-
-export const useAccountsQuery = (): UseQueryResult<string[]> => {
+export const useAccountsQuery = (): { data?: string[] } => {
     const { provider } = useEthers()
-    return useQuery([AccountQueryKey, provider?.network], async () => await provider?.listAccounts())
+
+    const [accounts, setAccounts] = useState<string[]>()
+
+    useEffect(() => {
+        provider?.listAccounts().then((accounts) => {
+            setAccounts(accounts)
+        })
+    }, [provider])
+
+    return { data: accounts }
 }

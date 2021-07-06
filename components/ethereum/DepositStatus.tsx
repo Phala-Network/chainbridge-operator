@@ -1,5 +1,6 @@
 import { Block } from 'baseui/block'
 import { StyledLink } from 'baseui/link'
+import { PLACEMENT as TooltipPlacement, StatefulTooltip } from 'baseui/tooltip'
 import dayjs from 'dayjs'
 import RelativeTime from 'dayjs/plugin/relativeTime'
 import React, { useMemo } from 'react'
@@ -21,12 +22,12 @@ export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
 
     const dstChainId = typeof network?.chainId === 'number' ? substrate.destChainIds[network.chainId] : undefined
 
-    const { data: depositNonce } = useDepositNonceQuery(hash)
+    const { data: depositNonce, isLoading: isDepositNonceLoading } = useDepositNonceQuery(hash)
     const { data: depositRecord } = useDepositRecordQuery(dstChainId, depositNonce)
 
     const amount = useMemo(() => bigNumberToDecimal(depositRecord?.amount, 12), [depositRecord?.amount])
 
-    const { data: vote } = useBridgeVoteQuery({
+    const { data: vote, isLoading: isVoteLoading } = useBridgeVoteQuery({
         amount,
         depositNonce,
         recipient: depositRecord?.destinationRecipientAddress,
@@ -56,14 +57,34 @@ export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
                 )}
             </p>
 
-            <p>Bridge Transfer Nonce: {depositNonce ?? <i>pending</i>}</p>
+            <p>
+                Transfer Id (
+                <StatefulTooltip
+                    content={<>Bridge Deposit Nonce on Ethereum network</>}
+                    placement={TooltipPlacement.bottom}
+                    showArrow
+                >
+                    <StyledLink>?</StyledLink>
+                </StatefulTooltip>
+                ) : {depositNonce ?? (isDepositNonceLoading ? <i>loading</i> : <i>pending</i>)}
+            </p>
 
             <p>
-                Proposal Status:&nbsp;
-                {vote !== undefined ? (
+                Transfer Status (
+                <StatefulTooltip
+                    content={<>Bridge Transfer Proposal Status on Phala network</>}
+                    placement={TooltipPlacement.bottom}
+                    showArrow
+                >
+                    <StyledLink>?</StyledLink>
+                </StatefulTooltip>
+                ) :&nbsp;
+                {vote !== undefined && !vote.isEmpty ? (
                     <>
                         {vote?.status.toString()} ({vote?.votes_for?.length} votes)
                     </>
+                ) : isVoteLoading ? (
+                    <i>loading</i>
                 ) : (
                     <i>pending</i>
                 )}
