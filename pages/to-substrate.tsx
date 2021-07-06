@@ -12,11 +12,14 @@ import { DepositStatus } from '../components/ethereum/DepositStatus'
 import { InjectedAccountSelect as PolkadotInjectedAccountSelect } from '../components/polkadot/AccountSelect'
 import { useErc20Deposit } from '../libs/ethereum/bridge/deposit'
 import { useErc20AssetHandlerAllowanceQuery } from '../libs/ethereum/queries/useErc20AllowanceQuery'
+import { useEthereumNetworkOptions } from '../libs/ethereum/queries/useEthereumNetworkOptions'
 import { useTransactionReceiptQuery } from '../libs/ethereum/queries/useTransactionReceiptQuery'
 
 const validAmount = /^\d+(\.(\d+)?)?$/
 
 const TransferToSubstratePage = (): JSX.Element => {
+    const { error: ethereumOptionsError } = useEthereumNetworkOptions()
+
     const [account, setAccount] = useState<string>()
     const [amount, setAmount] = useState<BigNumber>()
     const [recipient, setRecipient] = useState<string>()
@@ -80,40 +83,42 @@ const TransferToSubstratePage = (): JSX.Element => {
             .finally(() => setSubmitting(false))
     }
 
+    console.log(ethereumOptionsError)
+
     return (
         <>
+            {ethereumOptionsError !== undefined && (
+                <Notification kind={NotificationKind.negative} overrides={{ Body: { style: { width: 'auto' } } }}>
+                    {ethereumOptionsError.message}
+                </Notification>
+            )}
+
             <EthereumInjectedAccountSelectWithBalanceCaption
                 label="From Ethereum Account"
                 onChange={(account) => setAccount(account)}
             />
-
             <FormControl label={() => 'Amount'} caption={caption} positive={undefined}>
                 <Input error={amount === undefined} onChange={(e) => handleAmountChange(e.currentTarget.value)} />
             </FormControl>
-
             <PolkadotInjectedAccountSelect
                 creatable
                 label="To Phala Recipient"
                 onChange={(account) => handleRecipientChange(account)}
             />
-
             <Button onClick={() => handleSubmit()} disabled={!ready || isSubmitting} isLoading={isSubmitting}>
                 Submit
             </Button>
-
             {account !== undefined && !isAllowanceEnough && amount !== undefined && (
                 <Notification kind={NotificationKind.negative} overrides={{ Body: { style: { width: '100%' } } }}>
                     You have to approve our bridge before transfering.
                     <AllowanceApprove owner={account} value={amount} />
                 </Notification>
             )}
-
             {lastTxError && (
                 <Notification kind={NotificationKind.negative} overrides={{ Body: { style: { width: 'auto' } } }}>
                     {lastTxError?.message ?? JSON.stringify(lastTxError)}
                 </Notification>
             )}
-
             {lastTxResponse && (
                 <Notification
                     kind={
