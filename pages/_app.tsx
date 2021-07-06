@@ -5,7 +5,7 @@ import { useRouter } from 'next/dist/client/router'
 import React, { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as StyletronProvider } from 'styletron-react'
-import { polkadot } from '../config'
+import { substrate } from '../config'
 import { EthersProvider } from '../libs/ethereum/contexts/useEthers'
 import { Web3Provider as EthereumWeb3Provider } from '../libs/ethereum/contexts/useWeb3'
 import { ApiPromiseProvider } from '../libs/polkadot/hooks/useApiPromise'
@@ -47,7 +47,7 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
             <EthereumWeb3Provider>
                 <EthersProvider>
                     <PolkadotWeb3Provider originName="ChainBridge operator">
-                        <ApiPromiseProvider endpoint={polkadot.endpoint} registryTypes={polkadot.typedefs}>
+                        <ApiPromiseProvider endpoint={substrate.endpoint} registryTypes={substrate.typedefs}>
                             <StyletronProvider value={styletron}>
                                 <BaseProvider theme={LightTheme}>
                                     <AppNavBar

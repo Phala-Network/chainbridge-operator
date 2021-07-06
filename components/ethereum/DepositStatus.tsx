@@ -2,41 +2,37 @@ import { Block } from 'baseui/block'
 import { StyledLink } from 'baseui/link'
 import dayjs from 'dayjs'
 import RelativeTime from 'dayjs/plugin/relativeTime'
-import { BigNumber } from 'ethers'
 import React, { useMemo } from 'react'
-import { useBridgeContract } from '../../libs/ethereum/bridge/useBridgeContract'
+import { substrate } from '../../config'
+import { bigNumberToDecimal } from '../../libs/ethereum/bridge/utils/balances'
+import { useDepositNonceQuery } from '../../libs/ethereum/queries/useDepositNonceQuery'
+import { useDepositRecordQuery } from '../../libs/ethereum/queries/useDepositRecordQuery'
+import { useEthersNetworkQuery } from '../../libs/ethereum/queries/useEthersNetworkQuery'
 import { useEthereumNetworkOptions } from '../../libs/ethereum/queries/useNetworkConfigQuery'
 import { useTransactionReceiptQuery } from '../../libs/ethereum/queries/useTransactionReceiptQuery'
+import { useBridgeVoteQuery } from '../../libs/polkadot/queries/useBridgeVoteQuery'
 
 dayjs.extend(RelativeTime)
 
 export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
-    const { contract } = useBridgeContract()
-    const network = useEthereumNetworkOptions()
+    const ethereum = useEthereumNetworkOptions()
+    const { data: network } = useEthersNetworkQuery()
     const { data: receipt, isLoading: isReceiptLoading, dataUpdatedAt } = useTransactionReceiptQuery(hash)
 
-    const depositMatcher = useMemo(
-        () => contract?.filters['Deposit']?.(null, null, null).topics?.[0],
-        [contract?.filters]
-    )
+    const dstChainId = typeof network?.chainId === 'number' ? substrate.destChainIds[network.chainId] : undefined
 
-    const depositNonce = useMemo(() => {
-        const nonces = receipt?.logs
-            .filter((log) => log.address === network?.bridge && log.topics[0] === depositMatcher)
-            .map((log) => BigNumber.from(log.topics[3]).toNumber())
+    const { data: depositNonce } = useDepositNonceQuery(hash)
+    const { data: depositRecord } = useDepositRecordQuery(dstChainId, depositNonce)
 
-        if (nonces === undefined || nonces.length === 0) {
-            // no deposit event found, probably not a bridge transfer
-            return undefined
-        }
+    const amount = useMemo(() => bigNumberToDecimal(depositRecord?.amount, 12), [depositRecord?.amount])
 
-        if (nonces.length !== 1) {
-            // one transaction has exact one deposit event
-            throw new Error('Unexpected multiple deposit events in one transaction')
-        }
-
-        return nonces[0]
-    }, [depositMatcher, network?.bridge, receipt?.logs])
+    const { data: vote } = useBridgeVoteQuery({
+        amount,
+        depositNonce,
+        recipient: depositRecord?.destinationRecipientAddress,
+        resourceId: depositRecord?.resourceID,
+        srcChainId: ethereum?.destChainId,
+    })
 
     return (
         <Block>
@@ -60,7 +56,18 @@ export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
                 )}
             </p>
 
-            <p>Bridge Transfer Nonce: {depositNonce ?? <i>Pending</i>}</p>
+            <p>Bridge Transfer Nonce: {depositNonce ?? <i>pending</i>}</p>
+
+            <p>
+                Proposal Status:&nbsp;
+                {vote !== undefined ? (
+                    <>
+                        {vote?.status.toString()} ({vote?.votes_for?.length} votes)
+                    </>
+                ) : (
+                    <i>pending</i>
+                )}
+            </p>
 
             <p>
                 <i>updated {dayjs(dataUpdatedAt).fromNow()}</i>

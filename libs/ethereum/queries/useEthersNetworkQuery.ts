@@ -8,5 +8,7 @@ const EthersNetworkQueryKey = uuidv4()
 export const useEthersNetworkQuery = (): UseQueryResult<ethers.providers.Network> => {
     const { instance, provider } = useEthers()
 
+    // TODO: migrate to useMemo, reduce overhead
+
     return useQuery([EthersNetworkQueryKey, provider?.network, instance], async () => await provider?.getNetwork())
 }

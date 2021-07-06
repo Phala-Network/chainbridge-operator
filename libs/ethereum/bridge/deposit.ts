@@ -1,16 +1,18 @@
 import { isHex } from '@polkadot/util'
 import { BigNumber, ethers } from 'ethers'
 import { useMemo } from 'react'
+import { substrate } from '../../../config'
 import { useEthers } from '../contexts/useEthers'
+import { useEthersNetworkQuery } from '../queries/useEthersNetworkQuery'
 import { useEthereumNetworkOptions } from '../queries/useNetworkConfigQuery'
 import { useBridgeContract } from './useBridgeContract'
-
 
 type DepositSubmitFn = (amount: BigNumber, recipient: string) => Promise<ethers.providers.TransactionResponse> // TODO: use HexString
 
 export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined => {
     const { contract } = useBridgeContract()
     const config = useEthereumNetworkOptions()
+    const { data: network } = useEthersNetworkQuery()
     const { provider } = useEthers()
 
     const bridge = useMemo(() => {
@@ -20,8 +22,14 @@ export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined =>
     }, [contract, provider, sender])
 
     return useMemo(() => {
-        if (bridge === undefined || config === undefined || sender === undefined) {
+        if (bridge === undefined || config === undefined || network === undefined || sender === undefined) {
             return undefined
+        }
+
+        const destChainId = substrate.destChainIds[network.chainId]
+
+        if (destChainId === undefined) {
+            throw new Error(`Unsupported Ethereum network: ${network.name} (${network.chainId})`)
         }
 
         return async (amount, recipient) => {
@@ -42,10 +50,10 @@ export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined =>
             const payload = `0x${amountPayload}${recipientSize}${recipientPayload}`
 
             return await (bridge.functions['deposit'](
-                1,
-                config.erc20DepositResourceId,
+                destChainId,
+                config.erc20ResourceId,
                 payload
             ) as Promise<ethers.providers.TransactionResponse>)
         }
-    }, [bridge, config, sender])
+    }, [bridge, config, network, sender])
 }

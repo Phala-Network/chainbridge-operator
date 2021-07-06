@@ -1,7 +1,7 @@
 import { Contract, ethers } from 'ethers'
 import { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { networks } from '../../../config'
+import { ethereums } from '../../../config'
 import { useEthers } from '../contexts/useEthers'
 import { useEthersNetworkQuery } from '../queries/useEthersNetworkQuery'
 
@@ -16,7 +16,7 @@ export const useBridgeContract = (addressOrName?: string): { contract?: Contract
     const chainId = network?.chainId
 
     return useMemo(() => {
-        const bridge = addressOrName ?? networks[chainId as number]?.bridge
+        const bridge = addressOrName ?? (typeof chainId === 'number' ? ethereums[chainId]?.bridge : undefined)
 
         if (bridge === undefined || signer === undefined) {
             return {}

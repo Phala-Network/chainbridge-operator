@@ -1,5 +1,5 @@
-import { polkadot } from '../../../../config'
+import { substrate } from '../../../../config'
 
 export default {
-    types: polkadot.typedefs,
+    types: substrate.typedefs,
 }

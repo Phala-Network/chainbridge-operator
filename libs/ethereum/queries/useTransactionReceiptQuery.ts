@@ -8,7 +8,7 @@ const TransactionReceiptQueryKey = uuidv4()
 export const useTransactionReceiptQuery = (hash?: string): UseQueryResult<ethers.providers.TransactionReceipt> => {
     const { provider } = useEthers()
 
-    return useQuery([TransactionReceiptQueryKey], async () => {
+    return useQuery([TransactionReceiptQueryKey, hash, provider?.network?.chainId], async () => {
         {
             if (hash !== undefined) {
                 const result = await provider?.getTransactionReceipt(hash)
