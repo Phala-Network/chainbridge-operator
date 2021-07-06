@@ -5,6 +5,7 @@ export type Readystate = 'idle' | 'connecting' | 'connected' | 'unavailable'
 
 interface Provider {
     readonly _: unique symbol
+    on?(eventName: 'chainChanged', handler: () => void): void
 }
 
 interface IWeb3Context {
@@ -49,6 +50,13 @@ export const Web3Provider = ({ children }: PropsWithChildren<unknown>): JSX.Elem
                 setReadystate('unavailable')
             })
     }, [readystate, web3Modal])
+
+    useEffect(() => {
+        provider?.on?.('chainChanged', () => {
+            setProvider(undefined)
+            setReadystate('idle')
+        })
+    }, [provider])
 
     return <Web3Context.Provider value={{ provider, readystate }}>{children}</Web3Context.Provider>
 }
