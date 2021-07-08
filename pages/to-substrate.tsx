@@ -83,8 +83,6 @@ const TransferToSubstratePage = (): JSX.Element => {
             .finally(() => setSubmitting(false))
     }
 
-    console.log(ethereumOptionsError)
-
     return (
         <>
             {ethereumOptionsError !== undefined && (
