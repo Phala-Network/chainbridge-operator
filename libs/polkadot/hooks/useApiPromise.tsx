@@ -1,6 +1,7 @@
 import { ApiPromise, WsProvider } from '@polkadot/api'
-import { PropsWithChildren, ReactElement, createContext, useContext, useEffect, useState } from 'react'
 import { RegistryTypes } from '@polkadot/types/types'
+import { createContext, PropsWithChildren, ReactElement, useContext, useEffect, useState } from 'react'
+import { useNetworkContext } from './useSubstrateNetwork'
 
 type Readystate = 'unavailable' | 'init' | 'ready' | 'failed'
 
@@ -31,20 +32,22 @@ const enableApiPromise = async (endpoint: string, types: RegistryTypes): Promise
     return api
 }
 
-export const ApiPromiseProvider = ({
-    children,
-    endpoint,
-    registryTypes,
-}: PropsWithChildren<{
-    endpoint: string
-    registryTypes: RegistryTypes
-}>): ReactElement => {
+export const ApiPromiseProvider = ({ children }: PropsWithChildren<unknown>): ReactElement => {
     const [api, setApi] = useState<ApiPromise>()
     const [readystate, setState] = useState<Readystate>('unavailable')
+
+    const { options } = useNetworkContext()
+    const endpoint = options?.endpoint
+    const registryTypes = options?.typedefs
 
     useEffect(() => {
         if (typeof window === 'undefined' || readystate !== 'unavailable') {
             // do not enable during server side rendering
+            return
+        }
+
+        if (endpoint === undefined || registryTypes === undefined) {
+            // do nothing while no network is selected
             return
         }
 

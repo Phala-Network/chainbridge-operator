@@ -1,5 +1,5 @@
-import { substrate } from '../../../../config'
+import { latest } from '@phala/typedefs'
 
 export default {
-    types: substrate.typedefs,
+    types: latest,
 }

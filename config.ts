@@ -15,10 +15,12 @@ export const ethereums: Record<number, EthereumNetworkOptions> = {
     },
 }
 
-export const substrate: SubstrateNetworkOptions = {
-    destChainIds: {
-        42: 1,
+export const substrates: Record<string, SubstrateNetworkOptions> = {
+    'poc4-dev': {
+        destChainIds: {
+            42: 1,
+        },
+        endpoint: process.env['PHALA_ENDPOINT'] ?? 'wss://poc4-dev.phala.network/ws',
+        typedefs: dev,
     },
-    endpoint: process.env['PHALA_ENDPOINT'] ?? 'wss://poc4-dev.phala.network/ws',
-    typedefs: dev,
 }

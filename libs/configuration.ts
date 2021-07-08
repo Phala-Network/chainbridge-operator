@@ -23,3 +23,5 @@ export interface SubstrateNetworkOptions {
 }
 
 export type EthereumNetworks = Record<number, EthereumNetworkOptions>
+
+export type SubstrateNetwork = Record<string, SubstrateNetworkOptions>
