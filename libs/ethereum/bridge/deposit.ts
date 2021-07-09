@@ -1,7 +1,7 @@
 import { isHex } from '@polkadot/util'
 import { BigNumber, ethers } from 'ethers'
 import { useMemo } from 'react'
-import { substrate } from '../../../config'
+import { useNetworkContext } from '../../polkadot/hooks/useSubstrateNetwork'
 import { useEthers } from '../contexts/useEthers'
 import { useEthereumNetworkOptions } from '../queries/useEthereumNetworkOptions'
 import { useEthersNetworkQuery } from '../queries/useEthersNetworkQuery'
@@ -14,6 +14,7 @@ export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined =>
     const { options: config } = useEthereumNetworkOptions()
     const { data: network } = useEthersNetworkQuery()
     const { provider } = useEthers()
+    const { options: substrate } = useNetworkContext()
 
     const bridge = useMemo(() => {
         return contract !== undefined && provider !== undefined
@@ -22,7 +23,13 @@ export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined =>
     }, [contract, provider, sender])
 
     return useMemo(() => {
-        if (bridge === undefined || config === undefined || network === undefined || sender === undefined) {
+        if (
+            bridge === undefined ||
+            config === undefined ||
+            network === undefined ||
+            sender === undefined ||
+            substrate === undefined
+        ) {
             return undefined
         }
 

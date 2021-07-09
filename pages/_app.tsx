@@ -5,10 +5,10 @@ import { useRouter } from 'next/dist/client/router'
 import React, { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider as StyletronProvider } from 'styletron-react'
-import { substrate } from '../config'
 import { EthersProvider } from '../libs/ethereum/contexts/useEthers'
 import { Web3Provider as EthereumWeb3Provider } from '../libs/ethereum/contexts/useWeb3'
 import { ApiPromiseProvider } from '../libs/polkadot/hooks/useApiPromise'
+import { NetworkContextProvider } from '../libs/polkadot/hooks/useSubstrateNetwork'
 import { Web3Provider as PolkadotWeb3Provider } from '../libs/polkadot/hooks/useWeb3'
 import { styletron } from '../libs/styletron'
 
@@ -46,21 +46,23 @@ const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
         <QueryClientProvider client={client}>
             <EthereumWeb3Provider>
                 <EthersProvider>
-                    <PolkadotWeb3Provider originName="ChainBridge operator">
-                        <ApiPromiseProvider endpoint={substrate.endpoint} registryTypes={substrate.typedefs}>
-                            <StyletronProvider value={styletron}>
-                                <BaseProvider theme={LightTheme}>
-                                    <AppNavBar
-                                        mainItems={mainItems}
-                                        onMainItemSelect={(item) => {
-                                            ;(item as NavigationItem).navigate()
-                                        }}
-                                    />
-                                    <Component {...pageProps} />
-                                </BaseProvider>
-                            </StyletronProvider>
-                        </ApiPromiseProvider>
-                    </PolkadotWeb3Provider>
+                    <NetworkContextProvider defaultNetwork="poc4-dev">
+                        <PolkadotWeb3Provider originName="ChainBridge operator">
+                            <ApiPromiseProvider>
+                                <StyletronProvider value={styletron}>
+                                    <BaseProvider theme={LightTheme}>
+                                        <AppNavBar
+                                            mainItems={mainItems}
+                                            onMainItemSelect={(item) => {
+                                                ;(item as NavigationItem).navigate()
+                                            }}
+                                        />
+                                        <Component {...pageProps} />
+                                    </BaseProvider>
+                                </StyletronProvider>
+                            </ApiPromiseProvider>
+                        </PolkadotWeb3Provider>
+                    </NetworkContextProvider>
                 </EthersProvider>
             </EthereumWeb3Provider>
         </QueryClientProvider>
