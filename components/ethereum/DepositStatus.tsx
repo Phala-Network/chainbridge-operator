@@ -15,25 +15,37 @@ import { useBridgeVoteQuery } from '../../libs/polkadot/queries/useBridgeVoteQue
 
 dayjs.extend(RelativeTime)
 
+/**
+ * Status tracking widget of transfers from Ethereum to Substrate
+ */
 export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
-    const { options: ethereum } = useEthereumNetworkOptions()
-    const { data: network } = useEthersNetworkQuery()
+    const { network: substrateName, options: substrateOptions } = useNetworkContext()
+    const { data: ethereum } = useEthersNetworkQuery()
+    const { options: ethereumOptions } = useEthereumNetworkOptions()
+
     const { data: receipt, isLoading: isReceiptLoading, dataUpdatedAt } = useTransactionReceiptQuery(hash)
 
-    const { options: substrateOptions } = useNetworkContext()
-    const dstChainId = substrateOptions?.destChainIds[network?.chainId as number]
+    /**
+     * destChainId from the view on Ethereum
+     */
+    const destChainId = ethereumOptions?.peerChainIds[substrateName as string]
+
+    /**
+     * originChainId from the view on Substrate
+     */
+    const originChainId = substrateOptions?.peerChainIds[ethereum?.chainId as number]
 
     const { data: depositNonce, isLoading: isDepositNonceLoading } = useDepositNonceQuery(hash)
-    const { data: depositRecord } = useDepositRecordQuery(dstChainId, depositNonce)
+    const { data: depositRecord } = useDepositRecordQuery(destChainId, depositNonce)
 
     const amount = useMemo(() => bigNumberToDecimal(depositRecord?.amount, 12), [depositRecord?.amount]) // TODO: extract hardcoded decimal factor
 
-    const { data: vote, isLoading: isVoteLoading } = useBridgeVoteQuery({
+    const { data: voteOption, isLoading: isVoteLoading } = useBridgeVoteQuery({
         amount,
         depositNonce,
         recipient: depositRecord?.destinationRecipientAddress,
         resourceId: depositRecord?.resourceID,
-        srcChainId: ethereum?.destChainId,
+        srcChainId: originChainId,
     })
 
     return (
