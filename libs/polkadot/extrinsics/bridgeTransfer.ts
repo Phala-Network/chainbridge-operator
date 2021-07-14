@@ -1,8 +1,8 @@
 import { ApiPromise } from '@polkadot/api'
 import { BalanceOf, ExtrinsicStatus, Hash } from '@polkadot/types/interfaces'
 import { useMemo } from 'react'
-import { useEthereumNetworkOptions } from '../../ethereum/queries/useEthereumNetworkOptions'
 import { useApiPromise } from '../hooks/useApiPromise'
+import { useNetworkContext } from '../hooks/useSubstrateNetwork'
 import { waitSignAndSend } from '../utils/signAndSend'
 
 interface TransferProps {
@@ -39,11 +39,14 @@ type TransferSubmit = (
 ) => Promise<Hash>
 
 /**
- * @param chainId Chain Id of destination Ethereum network (e.g Kovan for 42)
+ * Submits fungible tranfer from Substrate to foreign chains
+ * @param ethereumChainId Chain Id of destination Ethereum network (e.g Kovan for 42)
  */
-export const useTransferSubmit = (chainId?: number): TransferSubmit | undefined => {
+export const useTransferSubmit = (ethereumChainId?: number): TransferSubmit | undefined => {
     const { api } = useApiPromise()
-    const destChainId = useEthereumNetworkOptions(chainId).options?.destChainId
+    const { options } = useNetworkContext()
+
+    const destChainId = options?.peerChainIds[ethereumChainId as number] as number | undefined
 
     return useMemo(() => {
         if (api === undefined || destChainId === undefined) {

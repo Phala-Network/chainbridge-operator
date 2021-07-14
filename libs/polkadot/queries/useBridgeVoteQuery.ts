@@ -24,7 +24,7 @@ export const useBridgeVoteQuery = ({
     recipient?: AccountId | string
     resourceId?: string
     srcChainId?: number
-}): UseQueryResult<ProposalVotes> => {
+}): UseQueryResult<Option<ProposalVotes>> => {
     const { api } = useApiPromise()
     const tokenDecimals = useDecimalJsTokenDecimalMultiplier(api)
 
@@ -40,7 +40,12 @@ export const useBridgeVoteQuery = ({
             api === undefined,
         ],
         async () => {
-            if (decimalAmount === undefined || api === undefined || tokenDecimals === undefined) {
+            if (
+                decimalAmount === undefined ||
+                api === undefined ||
+                srcChainId === undefined ||
+                tokenDecimals === undefined
+            ) {
                 return
             }
 
@@ -53,8 +58,7 @@ export const useBridgeVoteQuery = ({
                 callIndex: api.tx.bridgeTransfer.transfer.callIndex,
             })
 
-            const result = (await api.query.chainBridge.votes(srcChainId, [numberNonce, call])) as Option<ProposalVotes>
-            return result.unwrapOr(undefined)
+            return (await api.query.chainBridge.votes(srcChainId, [numberNonce, call])) as Option<ProposalVotes>
         }
     )
 }

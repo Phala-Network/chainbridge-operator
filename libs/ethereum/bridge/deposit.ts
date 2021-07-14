@@ -1,5 +1,5 @@
-import { isHex } from '@polkadot/util'
 import { BigNumber, ethers } from 'ethers'
+import { isHexString } from 'ethers/lib/utils'
 import { useMemo } from 'react'
 import { useNetworkContext } from '../../polkadot/hooks/useSubstrateNetwork'
 import { useEthers } from '../contexts/useEthers'
@@ -9,12 +9,15 @@ import { useBridgeContract } from './useBridgeContract'
 
 type DepositSubmitFn = (amount: BigNumber, recipient: string) => Promise<ethers.providers.TransactionResponse> // TODO: use HexString
 
+/**
+ * Submits a transfer of ERC-20 tokens from Ethereum to Substrate
+ */
 export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined => {
     const { contract } = useBridgeContract()
+    const { network: substrateName } = useNetworkContext()
     const { options: config } = useEthereumNetworkOptions()
     const { data: network } = useEthersNetworkQuery()
     const { provider } = useEthers()
-    const { options: substrate } = useNetworkContext()
 
     const bridge = useMemo(() => {
         return contract !== undefined && provider !== undefined
@@ -28,23 +31,23 @@ export const useErc20Deposit = (sender?: string): DepositSubmitFn | undefined =>
             config === undefined ||
             network === undefined ||
             sender === undefined ||
-            substrate === undefined
+            substrateName === undefined
         ) {
             return undefined
         }
 
-        const destChainId = substrate.destChainIds[network.chainId]
-
-        if (destChainId === undefined) {
-            throw new Error(`Unsupported Ethereum network: ${network.name} (${network.chainId})`)
-        }
+        const destChainId = config.peerChainIds[substrateName as string] as number | undefined
 
         return async (amount, recipient) => {
+            if (destChainId === undefined) {
+                throw new Error(`Unsupported Ethereum network: ${network.name} (${network.chainId})`)
+            }
+
             if (typeof bridge.functions['deposit'] !== 'function') {
                 throw new Error('Assertion failed: deposit should be available on the bridge contract')
             }
 
-            if (!isHex(recipient)) {
+            if (!isHexString(recipient)) {
                 throw new Error('Validation failed: recipient should be hex string')
             }
 
