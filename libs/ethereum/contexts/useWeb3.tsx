@@ -5,17 +5,24 @@ export type Readystate = 'idle' | 'connecting' | 'connected' | 'unavailable'
 
 interface Provider {
     readonly _: unique symbol
+    on?(eventName: 'accountsChanged', handler: (accounts?: string[]) => void): void
     on?(eventName: 'chainChanged', handler: () => void): void
 }
 
 interface IWeb3Context {
+    /**
+     * Injected accounts notified by `accountsChanged`
+     */
+    accounts: string[]
+
     provider?: Provider
     readystate: Readystate
 }
 
-const Web3Context = createContext<IWeb3Context>({ readystate: 'idle' })
+const Web3Context = createContext<IWeb3Context>({ accounts: [], readystate: 'idle' })
 
 export const Web3Provider = ({ children }: PropsWithChildren<unknown>): JSX.Element => {
+    const [accounts, setAccounts] = useState<string[]>([])
     const [provider, setProvider] = useState<Provider>()
     const [readystate, setReadystate] = useState<Readystate>('idle')
 
@@ -39,6 +46,7 @@ export const Web3Provider = ({ children }: PropsWithChildren<unknown>): JSX.Elem
             return
         }
 
+        setAccounts([])
         setReadystate('connecting')
         web3Modal
             .connect()
@@ -52,13 +60,16 @@ export const Web3Provider = ({ children }: PropsWithChildren<unknown>): JSX.Elem
     }, [readystate, web3Modal])
 
     useEffect(() => {
+        provider?.on?.('accountsChanged', (accounts) => {
+            setAccounts(accounts ?? [])
+        })
         provider?.on?.('chainChanged', () => {
             setProvider(undefined)
             setReadystate('idle')
         })
     }, [provider])
 
-    return <Web3Context.Provider value={{ provider, readystate }}>{children}</Web3Context.Provider>
+    return <Web3Context.Provider value={{ accounts, provider, readystate }}>{children}</Web3Context.Provider>
 }
 
 export const useWeb3 = (): IWeb3Context => useContext(Web3Context)
