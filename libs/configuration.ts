@@ -2,26 +2,48 @@ import { RegistryTypes } from '@polkadot/types/types'
 
 export interface EthereumNetworkOptions {
     /**
-     * destChainId to call `chainBridge.transferNative` with on Substrate
+     * Contract address of ChainBridge
      */
-    destChainId: number
-
     bridge: string
-    erc20: string
-    erc20AssetHandler: string
-    erc20ResourceId: string
-}
 
-export interface SubstrateNetworkOptions {
     /**
-     * Map (Ethereum chain id) => (`destChainId` to call `bridge.deposit` with on Ethereum)
+     * Contract address of ERC-20 token
      */
-    destChainIds: Record<number, number>
+    erc20: string
 
-    endpoint: string
-    typedefs: RegistryTypes
+    /**
+     * Contract address of ERC-20 asset handler
+     */
+    erc20AssetHandler: string
+
+    /**
+     * Resource Id of ERC-20 transfers
+     */
+    erc20ResourceId: string
+
+    /**
+     * Configured remote chain Ids
+     */
+    peerChainIds: Record<number | string, number>
 }
 
 export type EthereumNetworks = Record<number, EthereumNetworkOptions>
+
+export interface SubstrateNetworkOptions {
+    /**
+     * WebSocket endpoint of Substrate node
+     */
+    endpoint: string
+
+    /**
+     * Configured remote chain Ids
+     */
+    peerChainIds: Record<number | string, number>
+
+    /**
+     * Type definitions of connected Substrate chain
+     */
+    typedefs: RegistryTypes
+}
 
 export type SubstrateNetwork = Record<string, SubstrateNetworkOptions>
