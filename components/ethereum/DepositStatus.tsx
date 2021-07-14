@@ -12,6 +12,7 @@ import { useEthersNetworkQuery } from '../../libs/ethereum/queries/useEthersNetw
 import { useTransactionReceiptQuery } from '../../libs/ethereum/queries/useTransactionReceiptQuery'
 import { useNetworkContext } from '../../libs/polkadot/hooks/useSubstrateNetwork'
 import { useBridgeVoteQuery } from '../../libs/polkadot/queries/useBridgeVoteQuery'
+import { useBridgeVoteThresholdQuery } from '../../libs/polkadot/queries/useBridgeVoteThresholdQuery'
 
 dayjs.extend(RelativeTime)
 
@@ -47,6 +48,27 @@ export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
         resourceId: depositRecord?.resourceID,
         srcChainId: originChainId,
     })
+
+    const threshold = useBridgeVoteThresholdQuery()
+
+    const voteStatus = useMemo(() => {
+        if (voteOption === undefined || isVoteLoading) {
+            return <>loading</>
+        }
+
+        if (voteOption.isEmpty) {
+            return <>pending for proposal</>
+        }
+
+        const vote = voteOption.unwrapOr(undefined)
+
+        return (
+            <>
+                {vote?.status.toString()} ({vote?.votes_for.length}
+                {threshold && <>, {threshold} required</>})
+            </>
+        )
+    }, [])
 
     return (
         <Block>
@@ -92,15 +114,7 @@ export const DepositStatus = ({ hash }: { hash?: string }): JSX.Element => {
                     <StyledLink>?</StyledLink>
                 </StatefulTooltip>
                 ) :&nbsp;
-                {vote !== undefined && !vote.isEmpty ? (
-                    <>
-                        {vote?.status.toString()} ({vote?.votes_for?.length} votes)
-                    </>
-                ) : isVoteLoading ? (
-                    <i>loading</i>
-                ) : (
-                    <i>pending</i>
-                )}
+                {voteStatus}
             </p>
 
             <p>
