@@ -1,6 +1,12 @@
 # Phala ChainBridge Operator
 
-### Prepare
+## Deprecation
+
+This repository serves as an early prototype of Phala's ChainBridge web app.
+
+It has been moved to https://github.com/Phala-Network/wpcap/tree/master/apps/chainbridge-operator
+
+## Prepare
 
 ```sh
 # install dependencies
@@ -14,13 +20,13 @@ yarn typegen:from-defs
 yarn typegen:from-chain <websocket-endpoint>
 ```
 
-### Build for production
+## Build for production
 
 ```sh
 yarn build
 ```
 
-### Run development server
+## Run development server
 
 ```sh
 yarn dev
